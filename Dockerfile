@@ -10,9 +10,10 @@ RUN apt-get update && apt-get install -y \
 	postgresql-9.4-postgis \
   && apt-get clean  && rm -rf /var/lib/apt/lists/*
 
-ADD initdb check_postgres_data /usr/local/bin/
+ADD initdb check_postgres_data enable_remote /usr/local/bin/
 RUN chmod -v +x /usr/local/bin/initdb
 RUN chown -v postgres:postgres /usr/local/bin/initdb
+RUN chmod -v +x /usr/local/bin/enable_remote
 RUN chmod -v +x /usr/local/bin/check_postgres_data
 
 USER postgres
@@ -29,4 +30,4 @@ RUN mv /var/lib/postgresql/9.4/main /var/lib/postgresql/9.4/main_tmp
 #postgres port
 EXPOSE 5432
 
-CMD check_postgres_data && su - postgres -c "/usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/9.4/main -c config_file=/etc/postgresql/9.4/main/postgresql.conf"
+CMD enable_remote && check_postgres_data && su - postgres -c "/usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/9.4/main -c config_file=/etc/postgresql/9.4/main/postgresql.conf"
