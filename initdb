@@ -35,6 +35,9 @@ psql -d postgres -c "UPDATE pg_database SET datallowconn='false' WHERE datname='
 #Create a spatially-enabled database named endpoint.
 createdb endpoint -T template_postgis
 
+#create db for event changes module
+createdb event-changes -T template_postgis -E UTF8
+
 #stop postgres
 service postgresql stop
 #kill -TERM `head -1 /var/lib/postgresql/9.4/main/postmaster.pid`
